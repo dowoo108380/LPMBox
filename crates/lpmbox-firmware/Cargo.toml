@@ -1,0 +1,14 @@
+[package]
+name = "lpmbox-firmware"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+lpmbox-core = { path = "../lpmbox-core" }
+aes.workspace = true
+cbc.workspace = true
+sha2.workspace = true
+roxmltree.workspace = true
+ureq.workspace = true
+zip.workspace = true

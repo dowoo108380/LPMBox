@@ -1,0 +1,11 @@
+[package]
+name = "lpmbox-spft"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+lpmbox-core = { path = "../lpmbox-core" }
+dirs.workspace = true
+zip.workspace = true
+ureq.workspace = true

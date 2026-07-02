@@ -1,0 +1,27 @@
+[package]
+name = "lpmbox-gui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "lpmbox"
+path = "src/main.rs"
+
+[dependencies]
+image.workspace = true
+iced.workspace = true
+rfd.workspace = true
+chrono.workspace = true
+tokio.workspace = true
+open.workspace = true
+ureq.workspace = true
+serde_json.workspace = true
+semver.workspace = true
+sys-locale.workspace = true
+lpmbox-core = { path = "../lpmbox-core" }
+lpmbox-device = { path = "../lpmbox-device" }
+lpmbox-firmware = { path = "../lpmbox-firmware" }
+lpmbox-spft = { path = "../lpmbox-spft" }
+[build-dependencies]
+winresource = "0.1"

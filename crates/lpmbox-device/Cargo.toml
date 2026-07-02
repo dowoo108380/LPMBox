@@ -1,0 +1,14 @@
+[package]
+name = "lpmbox-device"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+lpmbox-core = { path = "../lpmbox-core" }
+adb_client.workspace = true
+rsa.workspace = true
+nusb.workspace = true
+pollster.workspace = true
+ureq.workspace = true
+zip.workspace = true

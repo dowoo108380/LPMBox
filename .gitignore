@@ -1,0 +1,17 @@
+/target/
+/logs/
+/backup/
+/adb/
+/tools/
+/readback_config.xml
+/SPFlashToolV6_tool.zip
+
+crates/lpmbox-spft/assets/SPFlashToolV6_tool.zip
+
+*.bak
+*.bak-*
+*.tmp
+*.log
+
+.DS_Store
+Thumbs.db

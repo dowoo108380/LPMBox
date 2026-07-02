@@ -1,0 +1,53 @@
+SPFlashToolV6_tool.zip is not included in this GitHub repository.
+
+Reason:
+SP Flash Tool is an external binary tool, so it is distributed separately.
+
+Download:
+https://spflashtools.com/wp-content/uploads/SP_Flash_Tool_V6.2404_Win.zip
+
+Build:
+The source code now builds without SPFlashToolV6_tool.zip.
+The ZIP file is no longer embedded with include_bytes!().
+
+Runtime behavior:
+1. LPMBox first tries to download the official ZIP automatically.
+2. If the download fails, LPMBox checks the cached ZIP path:
+   tools/download/SP_Flash_Tool_V6.2404_Win.zip
+3. For local development, you may also place the ZIP here:
+   crates/lpmbox-spft/assets/SPFlashToolV6_tool.zip
+
+Manual offline setup:
+1. Download the ZIP file from the link above.
+2. Place it at one of the paths below:
+   - <LPMBox executable folder>/tools/download/SP_Flash_Tool_V6.2404_Win.zip
+   - crates/lpmbox-spft/assets/SPFlashToolV6_tool.zip
+3. Run LPMBox again.
+
+----------
+
+SPFlashToolV6_tool.zip 파일은 GitHub 저장소에 포함하지 않습니다.
+
+이유:
+SP Flash Tool은 외부 바이너리 도구이므로 별도로 다운로드해야 합니다.
+
+다운로드 링크:
+https://spflashtools.com/wp-content/uploads/SP_Flash_Tool_V6.2404_Win.zip
+
+빌드:
+이제 소스 코드는 SPFlashToolV6_tool.zip이 없어도 빌드됩니다.
+ZIP 파일은 더 이상 include_bytes!()로 exe에 내장되지 않습니다.
+
+실행 동작:
+1. LPMBox가 먼저 공식 ZIP을 자동 다운로드합니다.
+2. 다운로드에 실패하면 아래 캐시 ZIP 경로를 확인합니다.
+   tools/download/SP_Flash_Tool_V6.2404_Win.zip
+3. 로컬 개발 환경에서는 아래 위치에 ZIP을 직접 넣어도 됩니다.
+   crates/lpmbox-spft/assets/SPFlashToolV6_tool.zip
+
+오프라인 수동 설정:
+1. 위 링크에서 ZIP 파일을 다운로드합니다.
+2. 아래 경로 중 하나에 넣어주세요.
+   - <LPMBox 실행 파일 폴더>/tools/download/SP_Flash_Tool_V6.2404_Win.zip
+   - crates/lpmbox-spft/assets/SPFlashToolV6_tool.zip
+3. LPMBox를 다시 실행하세요.
