@@ -30,8 +30,6 @@
 * [繁體中文 (CN/TW)](https://dwas.tistory.com/27) / Tiếng Việt (vi) / Ελληνικά (el) / हिन्दी (hi)
 * ქართული (ka) / Nederlands (nl) / العربية (ar) / Español (es)
 
-![Image](https://github.com/user-attachments/assets/cbe60528-9d8e-47c7-955e-32947ecf2c00)
-
 ### Target models
 * Xiaoxin Pad Pro 2025 (TB375FC, TB373FU)
 * Xiaoxin Pad 12.1 (TB365FC, TB361FU)
@@ -44,8 +42,6 @@
 ---
 
 ## 3. Menu (Functions)
-
-![Image](https://github.com/user-attachments/assets/ad800f39-f909-484d-a107-4f4c7e3f2dc3)
 
 ### 3.1 Option 1: Install/Flash PRC (CN) ↔ ROW (Global) Firmware [Data Wipe]
 Performs a clean installation (factory reset). **All user data will be erased.** 
