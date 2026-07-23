@@ -283,3 +283,58 @@ peak_refresh_rate=144.0
 - 기본값으로 `init_boot`의 두 슬롯을 모두 플래시하지 않습니다.
 - 기기별로 검증된 절차가 요구하지 않는 한 `vbmeta` 검증을 비활성화하지 않습니다.
 - 변조된 파티션이나 글로벌 롬 전환용 파티션이 적용된 상태에서 부트로더를 다시 잠그지 않습니다.
+
+## 144Hz 완전 고정 후 AP500U/AP501U 펜촉 입력이 작동하지 않음
+
+### 증상
+
+144Hz 완전 고정을 적용한 뒤 다음 기능은 정상적으로 작동했습니다.
+
+- 펜 Bluetooth 연결
+- 펜 버튼
+- 화면 근접 감지
+- 펜 근접 시 손가락 입력 차단
+
+그러나 펜촉으로 누르기, 선택, 필기 및 필압 입력은 작동하지
+않았습니다.
+
+### 문제가 발생한 설정
+
+```text
+min_refresh_rate=144.0
+peak_refresh_rate=144.0
+user preferred display mode=144Hz
+match content frame rate preference=0
+```
+
+### 해결 방법
+
+주사율 강제 설정을 모두 제거하고 완전히 전원을 껐다가 다시 켰습니다.
+
+```powershell
+.\adb shell settings delete system min_refresh_rate
+.\adb shell settings delete system peak_refresh_rate
+.\adb shell cmd display clear-user-preferred-display-mode 0
+.\adb shell cmd display set-match-content-frame-rate-pref 1
+.\adb shell reboot -p
+```
+
+그 뒤 시스템이 120Hz 물리 모드를 선택했고 펜촉 및 필압 입력이
+정상으로 복구됐습니다.
+
+펜을 계속 사용하면서 고정 주사율을 원하는 경우에는 120Hz 완전
+고정을 사용하는 것이 안전했습니다.
+
+```powershell
+.\adb shell cmd display `
+    set-user-preferred-display-mode `
+    1840 2944 120.00001 0
+
+.\adb shell settings put system min_refresh_rate 120.0
+.\adb shell settings put system peak_refresh_rate 120.0
+.\adb shell cmd display set-match-content-frame-rate-pref 0
+.\adb reboot
+```
+
+이 현상은 한 대의 TB373FU 글로벌 롬 환경에서 재현하고 검증한
+결과이므로, 다른 모델과 펌웨어에서는 별도 검증이 필요합니다.
