@@ -275,6 +275,126 @@ $Width, $Height = (
 - 배터리 사용량과 발열이 증가할 수 있음을 경고합니다.
 - 발열 보호 제한은 우회하지 않습니다.
 
+## AP500U/AP501U 계열 펜과 144Hz 완전 고정의 호환성
+
+144Hz 완전 고정을 적용한 뒤 Lenovo Tab Pen Plus AP500U/AP501U
+계열 정품 펜의 펜촉 입력이 작동하지 않는 문제를 확인했습니다.
+
+### 나타난 증상
+
+다음 기능은 정상적으로 작동했습니다.
+
+- Bluetooth 연결
+- 펜 버튼 입력
+- 펜 근접 감지
+- 펜 근접 상태에서 손가락 입력 차단
+
+그러나 다음 기능은 작동하지 않았습니다.
+
+- 펜촉으로 화면 누르기
+- 펜촉을 이용한 선택과 스크롤
+- 필기 및 그리기
+- 필압 입력
+
+즉, 펜의 근접 감지는 정상인 상태에서 실제 펜촉 접촉 입력만
+작동하지 않았습니다.
+
+### 문제를 발생시킨 설정
+
+```text
+min_refresh_rate=144.0
+peak_refresh_rate=144.0
+user preferred display mode=1840x2944 @ 144Hz
+match content frame rate preference=0
+```
+
+### 원래 동적 설정으로 복구한 방법
+
+```powershell
+.\adb shell settings delete system min_refresh_rate
+.\adb shell settings delete system peak_refresh_rate
+.\adb shell cmd display clear-user-preferred-display-mode 0
+.\adb shell cmd display set-match-content-frame-rate-pref 1
+.\adb shell reboot -p
+```
+
+완전히 전원을 껐다가 다시 켠 뒤 펜촉과 필압 입력이 정상으로
+돌아왔습니다.
+
+`dumpsys display`에서 확인한 지원 모드는 다음과 같습니다.
+
+```text
+144.00002Hz
+120.00001Hz
+60.0Hz
+30.000002Hz
+```
+
+펜이 정상적으로 작동하는 상태에서는 실제 활성 디스플레이 모드가
+120.00001Hz로 표시됐습니다.
+
+```text
+mActiveSfDisplayMode=120.00001Hz
+renderFrameRate=120.00001Hz
+```
+
+내부 드라이버의 정확한 동작 원리까지 확인한 것은 아니므로,
+모든 기기와 모든 펜에서 동일하다고 단정할 수는 없습니다.
+다만 검증한 기기에서는 144Hz 완전 고정 상태에서 문제가
+재현됐고, 강제 설정을 제거하여 120Hz가 선택되자 즉시
+정상으로 복구됐습니다.
+
+### 펜 사용자를 위한 권장 설정
+
+AP500U/AP501U 계열 펜을 사용하는 경우에는 144Hz 완전 고정보다
+120Hz 완전 고정을 권장합니다.
+
+```powershell
+.\adb shell cmd display `
+    set-user-preferred-display-mode `
+    1840 2944 120.00001 0
+
+.\adb shell settings put system min_refresh_rate 120.0
+.\adb shell settings put system peak_refresh_rate 120.0
+.\adb shell cmd display set-match-content-frame-rate-pref 0
+.\adb reboot
+```
+
+적용 상태는 다음 명령으로 확인합니다.
+
+```powershell
+.\adb shell settings get system min_refresh_rate
+.\adb shell settings get system peak_refresh_rate
+.\adb shell cmd display get-user-preferred-display-mode 0
+.\adb shell cmd display get-match-content-frame-rate-pref
+```
+
+목표 결과는 다음과 같습니다.
+
+```text
+120.0
+120.0
+User preferred display mode: 1840 2944 120.00001
+Match content frame rate type: 0
+```
+
+검증한 환경에서는 이 설정으로 화면이 120Hz에 고정되었으며,
+펜촉 입력, 필압, 버튼, Bluetooth 연결과 손바닥 입력 차단 기능이
+모두 정상적으로 작동했습니다.
+
+### LPMBox 구현 시 권장 구성
+
+주사율 기능을 하나의 최대값 고정 버튼으로 제공하기보다는 다음과
+같이 구분하는 편이 안전합니다.
+
+- **시스템 기본 동적 주사율**
+- **120Hz 고정, 펜 사용자 권장**
+- **최대 지원 주사율 고정, 펜 호환성 경고 표시**
+
+144Hz 완전 고정을 선택할 때 스타일러스 입력 장치가 감지되면
+AP500U/AP501U 계열 펜의 펜촉과 필압 입력이 작동하지 않을 수
+있다는 경고를 표시하는 것이 좋습니다.
+
 ## 9. 개인정보를 제거한 진단 보고서 제안
 
 LPMBox에서 GitHub Issue용 진단 보고서를 만들 때 다음 정보를 포함하면 좋을 것 같습니다.
